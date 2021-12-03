@@ -20,13 +20,14 @@ CardTitle.propTypes = {
   blockClassName: PropTypes.string,
 };
 
-const Card = ({ children, title, titleComponent, caption, captionComponent, blockClassName='card', modifiers=[] }) => {
+const Card = ({ children, title, titleComponent, currentStep, totalSteps, caption, captionComponent, blockClassName='card', modifiers=[] }) => {
   const className = getBEMClassName(
     blockClassName,
     modifiers,
   );
   return (
     <div className={className}>
+      { currentStep && totalSteps ? <h3>Stap {currentStep} van {totalSteps}</h3> : null }
       {/* Emit header/title only if there is one */}
       { title ? <CardTitle title={title} component={titleComponent} blockClassName={blockClassName} /> : null }
 

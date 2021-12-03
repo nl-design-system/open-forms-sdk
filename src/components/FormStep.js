@@ -350,9 +350,11 @@ const FormStep = ({
     dispatch({type: 'STEP_DATA_UPDATED'});
   };
 
+  let currentStep = form.steps.findIndex(s => s.slug === slug) + 1;
+
   return (
     <>
-      <Card title={submissionStep.name}>
+      <Card title={submissionStep.name} currentStep={currentStep} totalSteps={form.steps.length}>
         { loading ? <Loader modifiers={['centered']} /> : null }
 
         {
