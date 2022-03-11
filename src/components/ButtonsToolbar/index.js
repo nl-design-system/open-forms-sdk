@@ -7,8 +7,19 @@ import {Button as DHButton} from "@gemeente-denhaag/button";
 import Loader from 'components/Loader';
 import LogoutButton from 'components/LogoutButton';
 import {SUBMISSION_ALLOWED} from 'components/constants';
+import {ArrowRightIcon} from "@gemeente-denhaag/icons";
 
-const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, isLastStep, isCheckingLogic, onNavigatePrevPage, onFormSave, onLogout}) => {
+const ButtonsToolbar = ({
+                          literals,
+                          canSubmitStep,
+                          canSubmitForm,
+                          loginRequired,
+                          isLastStep,
+                          isCheckingLogic,
+                          onNavigatePrevPage,
+                          onFormSave,
+                          onLogout
+                        }) => {
   const showSubmitButton = !(canSubmitForm === SUBMISSION_ALLOWED.noWithoutOverview && isLastStep);
 
   return (
@@ -23,12 +34,6 @@ const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, 
             ><Literal name="previousText"/></Button>
           </ToolbarList>*/}
           <ToolbarList>
-            <DHButton
-              type="button"
-              variant="secondary-action"
-              name="save"
-              onClick={onFormSave}
-            ><Literal name="saveText"/></DHButton>
             {
               showSubmitButton
               && (<DHButton
@@ -36,6 +41,8 @@ const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, 
                 variant="primary"
                 name="next"
                 disabled={!canSubmitStep}
+                icon={<ArrowRightIcon />}
+                iconAlign="end"
               >
                 {
                   isCheckingLogic
@@ -44,6 +51,12 @@ const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, 
                 }
               </DHButton>)
             }
+            <DHButton
+              type="button"
+              variant="secondary-action"
+              name="save"
+              onClick={onFormSave}
+            ><Literal name="saveText"/></DHButton>
           </ToolbarList>
         </Toolbar>
       </LiteralsProvider>
