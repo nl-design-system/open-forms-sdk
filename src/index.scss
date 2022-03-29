@@ -3,7 +3,6 @@
 @import '~microscope-sass/lib/color';
 @import '~microscope-sass/lib/responsive';
 @import 'scss/settings';
-@import 'scss/denhaag';
 
 
 body {
@@ -36,8 +35,4 @@ body {
   font-family: system-ui;
   z-index: 1000;
   padding-left: 1rem;
-}
-
-.denhaag-input {
-  @extend .denhaag-textfield;
 }
