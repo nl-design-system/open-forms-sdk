@@ -11,26 +11,6 @@
     display: none;
   }
 
-  &[class*="error"] {
-    @include border(left, var(--of-color-danger), 4px);
-    padding-left: $grid-margin-3;
-  }
-
-  &[class*="warning"] {
-    @include border(left, var(--of-color-warning), 4px);
-    padding-left: $grid-margin-3;
-  }
-
-  &[class*="success"] {
-    @include border(left, var(--of-color-success), 4px);
-    padding-left: $grid-margin-3;
-  }
-
-  &[class*="info"] {
-    @include border(left, var(--of-color-info), 4px);
-    padding-left: $grid-margin-3;
-  }
-
   &--no-asterisks {
     .required-field:after {
       // Override the asterisk
