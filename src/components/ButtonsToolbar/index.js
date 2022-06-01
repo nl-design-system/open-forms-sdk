@@ -28,7 +28,7 @@ const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, 
                 type="submit"
                 name="next"
                 disabled={!canSubmitStep}
-                className={"denhaag-button denhaag-button--end-icon"}
+                className="denhaag-button denhaag-button--end-icon"
               >
                 {
                   isCheckingLogic
@@ -53,7 +53,7 @@ const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, 
             }
             <button
               type="button"
-              className={"denhaag-button denhaag-button--primary-action"}
+              className="denhaag-button denhaag-button--secondary-action"
               name="save"
               onClick={onFormSave}
             ><Literal name="saveText"/></button>
