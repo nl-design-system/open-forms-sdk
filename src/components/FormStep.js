@@ -24,16 +24,16 @@
 import React, {useRef, useContext} from 'react';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
-import { useHistory, useParams } from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
-import { useImmerReducer } from 'use-immer';
+import {useImmerReducer} from 'use-immer';
 import useAsync from 'react-use/esm/useAsync';
 
 import hooks from '../formio/hooks';
 
-import { get, post, put } from 'api';
+import {get, post, put} from 'api';
 import Card from 'components/Card';
 import FormIOWrapper from 'components/FormIOWrapper';
 import FormStepDebug from 'components/FormStepDebug';
@@ -42,9 +42,8 @@ import FormStepSaveModal from 'components/modals/FormStepSaveModal';
 import {findPreviousApplicableStep, isLastStep} from 'components/utils';
 import ButtonsToolbar from 'components/ButtonsToolbar';
 import {ConfigContext, FormioTranslations} from 'Context';
-import {PREFIX}  from 'formio/constants';
+import {PREFIX} from 'formio/constants';
 import Types from 'types';
-import FormProgress from "@gemeente-denhaag/form-progress";
 
 const DEBUG = process.env.NODE_ENV === 'development';
 
@@ -65,7 +64,7 @@ const doLogicCheck = async (stepUrl, data, signal) => {
 };
 
 class AbortedLogicCheck extends Error {
-  constructor(message='', ...args) {
+  constructor(message = '', ...args) {
     super(message, ...args);
     this.name = 'AbortError';  // aligns with fetch Error.name that's thrown on abort
   }
@@ -81,7 +80,7 @@ const initialState = {
 };
 
 const reducer = (draft, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case 'STEP_LOADED': {
       const {data, formStep: {configuration}, canSubmit} = action.payload;
       draft.configuration = configuration;
@@ -96,7 +95,7 @@ const reducer = (draft, action) => {
       break;
     }
     case 'BLOCK_SUBMISSION': {
-      const { logicChecking=false } = action.payload || {};
+      const {logicChecking = false} = action.payload || {};
       draft.canSubmit = false;
       draft.logicChecking = logicChecking;
       break;
@@ -107,7 +106,8 @@ const reducer = (draft, action) => {
       draft.logicChecking = false;
       draft.canSubmit = canSubmit;
       break;
-    };
+    }
+      ;
     // a separate action type because we should _not_ touch the configuration in the state
     case 'LOGIC_CHECK_DONE': {
       const {step: {data, canSubmit}} = action.payload;
@@ -136,12 +136,12 @@ const reducer = (draft, action) => {
 };
 
 const FormStep = ({
-    form,
-    submission,
-    onLogicChecked,
-    onStepSubmitted,
-    onLogout,
-}) => {
+                    form,
+                    submission,
+                    onLogicChecked,
+                    onStepSubmitted,
+                    onLogout,
+                  }) => {
   const intl = useIntl();
   const config = useContext(ConfigContext);
   const formioTranslations = useContext(FormioTranslations);
@@ -160,7 +160,7 @@ const FormStep = ({
 
   // react router hooks
   const history = useHistory();
-  const { step: slug } = useParams();
+  const {step: slug} = useParams();
 
   // logic check refs
   const logicCheckTimeout = useRef();
@@ -328,7 +328,7 @@ const FormStep = ({
     }
   };
 
-  const onFormIOSubmit = async ({ data }) => {
+  const onFormIOSubmit = async ({data}) => {
     if (!submission) {
       throw new Error("There is no active submission!");
     }
@@ -498,9 +498,46 @@ const FormStep = ({
 
   return (
     <div className={"denhaag-form-step"}>
-      <FormProgress value={currentStep} max={totalSteps} label={stepLabel} previousHref={previousStepHref} onClick={onPrevPage} />
+      <div className={"denhaag-form-progress"}>
+        <div className={"denhaag-form-progress__header"}>
+          {currentStep > 0 &&
+            (<div className="denhaag-form-progress__previous">
+              <a
+                className="denhaag-link denhaag-link--with-icon denhaag-link--with-icon-start"
+                href={previousStepHref}
+              >
+                <span className="denhaag-link__icon">
+                  <svg
+                    aria-hidden="true"
+                    className="denhaag-icon"
+                    fill="none"
+                    focusable="false"
+                    height="1em"
+                    shape-rendering="auto"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.707 18.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 111.414 1.414L7.414 11H19a1 1 0 110 2H7.414l4.293 4.293a1 1 0 010 1.414z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+                <span>
+                  Vorige stap
+                </span>
+              </a>
+            </div>)}
+          <label htmlFor={"denhaag-form-progress-bar"}>
+            <p className={"utrecht-paragraph utrecht-paragraph--distanced"}>{stepLabel}</p>
+          </label>
+        </div>
+        <progress className={"denhaag-form-progress__progress"} id={"denhaag-form-progress-bar"} max={totalSteps}
+                  value={currentStep}/>
+      </div>
       <Card title={submissionStep.name}>
-        { isLoadingSomething ? <Loader modifiers={['centered']} /> : null }
+        {isLoadingSomething ? <Loader modifiers={['centered']}/> : null}
 
         {
           (!isLoadingSomething && configuration) ? (
@@ -532,19 +569,19 @@ const FormStep = ({
                   },
                 }}
               />
-              { DEBUG ? <FormStepDebug data={getCurrentFormData()} /> : null }
-            <ButtonsToolbar
-              literals={formStep.literals}
-              canSubmitStep={canSubmit}
-              canSubmitForm={submission.submissionAllowed}
-              isAuthenticated={submission.isAuthenticated}
-              isLastStep={isLastStep(currentStepIndex, submission)}
-              isCheckingLogic={logicChecking}
-              loginRequired={form.loginRequired}
-              onFormSave={onFormSave}
-              onLogout={onLogout}
-              onNavigatePrevPage={onPrevPage}
-            />
+              {DEBUG ? <FormStepDebug data={getCurrentFormData()}/> : null}
+              <ButtonsToolbar
+                literals={formStep.literals}
+                canSubmitStep={canSubmit}
+                canSubmitForm={submission.submissionAllowed}
+                isAuthenticated={submission.isAuthenticated}
+                isLastStep={isLastStep(currentStepIndex, submission)}
+                isCheckingLogic={logicChecking}
+                loginRequired={form.loginRequired}
+                onFormSave={onFormSave}
+                onLogout={onLogout}
+                onNavigatePrevPage={onPrevPage}
+              />
             </form>
           ) : null
         }
