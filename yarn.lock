@@ -1633,10 +1633,10 @@
   dependencies:
     "@gemeente-denhaag/baseprops" "0.2.3-alpha.158"
 
-"@gemeente-denhaag/components-css@0.1.1-alpha.105":
-  version "0.1.1-alpha.105"
-  resolved "https://registry.yarnpkg.com/@gemeente-denhaag/components-css/-/components-css-0.1.1-alpha.105.tgz#07ada4d570c3dd28ebf6f402c3f47c64727d01e5"
-  integrity sha512-CjsFB5t7bPtxBmxG7f4fCK4AxRigZpRptSr/BcWrvIh8ReF7yCdzpauy/SM2mf40AH3hVcNFGUIei3s1D0h4hQ==
+"@gemeente-denhaag/components-css@0.1.1-alpha.166":
+  version "0.1.1-alpha.166"
+  resolved "https://registry.yarnpkg.com/@gemeente-denhaag/components-css/-/components-css-0.1.1-alpha.166.tgz#d8c12e0b0994be99a112c64f3faffb709c32dd24"
+  integrity sha512-CselSZ8rGN+EKxc45u4WDJ9cyIDj0EAk5YEaM5NjC1rb4kQRekWiZfKQiSFxNgVWonOqhABLQLNfdkCHlCOFKw==
 
 "@gemeente-denhaag/form-progress@0.1.1-alpha.33":
   version "0.1.1-alpha.33"
