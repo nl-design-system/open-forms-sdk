@@ -1,9 +1,3 @@
-@import '~microscope-sass/lib/color';
-@import '~microscope-sass/lib/typography';
-
-@import '../mixins/prefix';
-@import '~@utrecht/component-library-css/dist/bem';
-
 .#{prefix(help-text)} {
   border: var(--openforms-input-description-border);
   background-color: var(--openforms-input-description-background-color);
