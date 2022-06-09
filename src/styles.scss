@@ -1,5 +1,6 @@
 // Open Forms SDK styles
-@use '@utrecht/component-library-css/dist/index';
+@import '@utrecht/component-library-css/dist/index';
+@import '@gemeente-denhaag/components-css/dist/index';
 
 // output the design tokens in :root
 @import "@open-formulieren/design-tokens/dist/root.css";
@@ -10,7 +11,6 @@
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~flatpickr/dist/flatpickr.min.css';
 @import "~formiojs/dist/formio.form.css";
-@import "./scss/denhaag";
 
 @import "./scss/settings";
 
