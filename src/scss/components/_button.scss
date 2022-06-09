@@ -12,7 +12,8 @@ $button-padding-v: math.div(($grid-row-height - $button-line-height-px), 2) - $t
 $button-padding-h: $grid-margin-2;
 
 .#{prefix(button)} {
-  @extend .utrecht-button;
+  @extend .denhaag-button;
+
   appearance: none;
   display: flex;
   align-items: center;
