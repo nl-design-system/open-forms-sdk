@@ -10,7 +10,6 @@ import ProtectedEval from '@formio/protected-eval';
 import OpenFormsModule from './formio/module';
 import OFLibrary from './formio/templates';
 
-import '@utrecht/component-library-css/dist/bem.css';
 import './styles.scss';
 
 import { get } from 'api';
