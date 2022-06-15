@@ -505,6 +505,7 @@ const FormStep = ({
               <a
                 className="denhaag-link denhaag-link--with-icon denhaag-link--with-icon-start"
                 href={previousStepHref}
+                onClick={onPrevPage}
               >
                 <span className="denhaag-link__icon">
                   <svg
