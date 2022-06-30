@@ -12,14 +12,15 @@
             >
                 {{ctx.input.content}}
             </{{ctx.input.type}}>
-        <span class="denhaag-checkbox__icon">
-            <span class="denhaag-icon"></span>
+            <span class="denhaag-checkbox__icon">
+                <span class="denhaag-icon"></span>
+            </span>
         </span>
     </span>
     <span class="denhaag-form-control-label__label">
-            {{ctx.input.label}}&nbsp;
-            {% if (ctx.component.tooltip) { %}
-                <i ref="tooltip" class="{{ctx.iconClass('question-sign')}}"></i>
-            {% } %}
-        </span>
+        {{ctx.input.label}}&nbsp;
+        {% if (ctx.component.tooltip) { %}
+            <i ref="tooltip" class="{{ctx.iconClass('question-sign')}}"></i>
+        {% } %}
+    </span>
 </label>
