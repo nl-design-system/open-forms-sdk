@@ -38,6 +38,7 @@ import {get, post, put} from 'api';
 import Card from 'components/Card';
 import FormIOWrapper from 'components/FormIOWrapper';
 import FormStepDebug from 'components/FormStepDebug';
+import {Literal, LiteralsProvider} from 'components/Literal';
 import Loader from 'components/Loader';
 import FormStepSaveModal from 'components/modals/FormStepSaveModal';
 import {findPreviousApplicableStep, isLastStep} from 'components/utils';
@@ -530,106 +531,108 @@ const FormStep = ({
   const previousStepHref = prevStepSlug ? `/stap/${prevStepSlug}` : '/';
 
   return (
-    <div className={"denhaag-form-step"}>
-      <div className={"denhaag-form-progress"}>
-        <div className={"denhaag-form-progress__header"}>
-          {currentStep > 0 &&
-            (<div className="denhaag-form-progress__previous">
-              <a
-                className="denhaag-link denhaag-link--with-icon denhaag-link--with-icon-start"
-                href={previousStepHref}
-                onClick={onPrevPage}
-              >
-                <span className="denhaag-link__icon">
-                  <svg
-                    aria-hidden="true"
-                    className="denhaag-icon"
-                    fill="none"
-                    focusable="false"
-                    height="1em"
-                    shape-rendering="auto"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11.707 18.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 111.414 1.414L7.414 11H19a1 1 0 110 2H7.414l4.293 4.293a1 1 0 010 1.414z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-                <span>
-                  Vorige stap
-                </span>
-              </a>
-            </div>)}
-          <label htmlFor={"denhaag-form-progress-bar"}>
-            <p className={"utrecht-paragraph utrecht-paragraph--distanced"}>{stepLabel}</p>
-          </label>
+    <LiteralsProvider literals={formStep.literals}>
+      <div className={"denhaag-form-step"}>
+        <div className={"denhaag-form-progress"}>
+          <div className={"denhaag-form-progress__header"}>
+            {currentStep > 0 &&
+              (<div className="denhaag-form-progress__previous">
+                <a
+                  className="denhaag-link denhaag-link--with-icon denhaag-link--with-icon-start"
+                  href={previousStepHref}
+                  onClick={onPrevPage}
+                >
+                  <span className="denhaag-link__icon">
+                    <svg
+                      aria-hidden="true"
+                      className="denhaag-icon"
+                      fill="none"
+                      focusable="false"
+                      height="1em"
+                      shape-rendering="auto"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M11.707 18.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 111.414 1.414L7.414 11H19a1 1 0 110 2H7.414l4.293 4.293a1 1 0 010 1.414z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </span>
+                  <span>
+                    <Literal name="previousText"/>
+                  </span>
+                </a>
+              </div>)}
+            <label htmlFor={"denhaag-form-progress-bar"}>
+              <p className={"utrecht-paragraph utrecht-paragraph--distanced"}>{stepLabel}</p>
+            </label>
+          </div>
+          <progress className={"denhaag-form-progress__progress"} id={"denhaag-form-progress-bar"} max={totalSteps}
+                    value={currentStep}/>
         </div>
-        <progress className={"denhaag-form-progress__progress"} id={"denhaag-form-progress-bar"} max={totalSteps}
-                  value={currentStep}/>
-      </div>
-      <Card title={submissionStep.name}>
-        {isLoadingSomething ? <Loader modifiers={['centered']}/> : null}
+        <Card title={submissionStep.name}>
+          {isLoadingSomething ? <Loader modifiers={['centered']}/> : null}
 
-        {
-          (!isLoadingSomething && configuration) ? (
-            <form onSubmit={onReactSubmit}>
-              <FormIOWrapper
-                ref={formRef}
-                form={configuration}
-                onChange={onFormIOChange}
-                onSubmit={onFormIOSubmit}
-                onInitialized={onFormIOInitialized}
-                options={{
-                  noAlerts: true,
-                  baseUrl: config.baseUrl,
-                  language: formioTranslations.language,
-                  i18n: formioTranslations.i18n,
-                  evalContext: {
-                    ofPrefix: `${PREFIX}-`,
-                    requiredFieldsWithAsterisk: form.requiredFieldsWithAsterisk,
-                  },
-                  hooks: {
-                    ...hooks,
-                    customValidation: getCustomValidationHook(submissionStep.url),
-                  },
-                  // custom options
-                  intl,
-                  ofContext: {
-                    form: form,
-                    submissionUuid: submission.id,
-                    saveStepData: async () => await submitStepData(
-                      submissionStep.url, {...getCurrentFormData()}
-                    ),
-                  },
-                }}
-              />
-              {DEBUG ? <FormStepDebug data={getCurrentFormData()}/> : null}
-              <ButtonsToolbar
-                literals={formStep.literals}
-                canSubmitStep={canSubmit}
-                canSubmitForm={submission.submissionAllowed}
-                isAuthenticated={submission.isAuthenticated}
-                isLastStep={isLastStep(currentStepIndex, submission)}
-                isCheckingLogic={logicChecking}
-                loginRequired={form.loginRequired}
-                onFormSave={onFormSave}
-                onLogout={onLogout}
-                onNavigatePrevPage={onPrevPage}
-              />
-            </form>
-          ) : null
-        }
-      </Card>
-      <FormStepSaveModal
-        isOpen={isFormSaveModalOpen}
-        closeModal={closeFormStepSaveModal}
-        onSaveConfirm={onSaveConfirm}
-        suspendFormUrl={`${submission.url}/_suspend`}
-      />
-    </div>
+          {
+            (!isLoadingSomething && configuration) ? (
+              <form onSubmit={onReactSubmit}>
+                <FormIOWrapper
+                  ref={formRef}
+                  form={configuration}
+                  onChange={onFormIOChange}
+                  onSubmit={onFormIOSubmit}
+                  onInitialized={onFormIOInitialized}
+                  options={{
+                    noAlerts: true,
+                    baseUrl: config.baseUrl,
+                    language: formioTranslations.language,
+                    i18n: formioTranslations.i18n,
+                    evalContext: {
+                      ofPrefix: `${PREFIX}-`,
+                      requiredFieldsWithAsterisk: form.requiredFieldsWithAsterisk,
+                    },
+                    hooks: {
+                      ...hooks,
+                      customValidation: getCustomValidationHook(submissionStep.url),
+                    },
+                    // custom options
+                    intl,
+                    ofContext: {
+                      form: form,
+                      submissionUuid: submission.id,
+                      saveStepData: async () => await submitStepData(
+                        submissionStep.url, {...getCurrentFormData()}
+                      ),
+                    },
+                  }}
+                />
+                {DEBUG ? <FormStepDebug data={getCurrentFormData()}/> : null}
+                <ButtonsToolbar
+                  literals={formStep.literals}
+                  canSubmitStep={canSubmit}
+                  canSubmitForm={submission.submissionAllowed}
+                  isAuthenticated={submission.isAuthenticated}
+                  isLastStep={isLastStep(currentStepIndex, submission)}
+                  isCheckingLogic={logicChecking}
+                  loginRequired={form.loginRequired}
+                  onFormSave={onFormSave}
+                  onLogout={onLogout}
+                  onNavigatePrevPage={onPrevPage}
+                />
+              </form>
+            ) : null
+          }
+        </Card>
+        <FormStepSaveModal
+          isOpen={isFormSaveModalOpen}
+          closeModal={closeFormStepSaveModal}
+          onSaveConfirm={onSaveConfirm}
+          suspendFormUrl={`${submission.url}/_suspend`}
+        />
+      </div>
+    </LiteralsProvider>
   );
 };
 
