@@ -21,7 +21,7 @@ const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, 
               onClick={onNavigatePrevPage}
             ><Literal name="previousText"/></Button>
           </ToolbarList>*/}
-          <ToolbarList>
+          <div class="denhaag-button-group denhaag-button-group--multiple">
             {
               showSubmitButton
               && (<button
@@ -57,7 +57,7 @@ const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, 
               name="save"
               onClick={onFormSave}
             ><Literal name="saveText"/></button>
-          </ToolbarList>
+          </div>
         </Toolbar>
       </LiteralsProvider>
       {isAuthenticated ? <LogoutButton onLogout={onLogout}/> : null}
