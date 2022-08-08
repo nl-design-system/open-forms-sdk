@@ -123,6 +123,7 @@ const initialState = {
   logicChecking: false,
   isFormSaveModalOpen: false,
   isNavigating: false,
+  error: null,
 };
 
 const reducer = (draft, action) => {
@@ -175,6 +176,10 @@ const reducer = (draft, action) => {
       draft.isNavigating = true;
       break;
     }
+    case 'ERROR': {
+      draft.error = action.payload;
+      break;
+    }
     default: {
       throw new Error(`Unknown action ${action.type}`);
     }
@@ -200,6 +205,7 @@ const FormStep = ({
       canSubmit, logicChecking,
       isFormSaveModalOpen,
       isNavigating,
+      error,
     },
     dispatch
   ] = useImmerReducer(reducer, initialState);
@@ -235,6 +241,11 @@ const FormStep = ({
     },
     [submissionStep.url]
   );
+
+  // throw errors from state so the error boundaries can pick them up
+  if (error) {
+    throw error;
+  }
 
   // event loops and async programming are fun!
   // UI inputs are wonky if end-users perform input while evaluating logic checks that
@@ -377,7 +388,12 @@ const FormStep = ({
 
     dispatch({type: 'NAVIGATE'});
 
-    await submitStepData(submissionStep.url, data);
+    try {
+      await submitStepData(submissionStep.url, data);
+    } catch (e) {
+      dispatch({type: 'ERROR', payload: e});
+    }
+
     // This will reload the submission
     const {submission: updatedSubmission, step} = await doLogicCheck(submissionStep.url, data);
     onLogicChecked(updatedSubmission, step); // report back to parent component

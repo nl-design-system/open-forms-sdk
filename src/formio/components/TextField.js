@@ -26,7 +26,11 @@ class TextField extends Formio.Components.components.textfield {
   }
 
   checkComponentValidity(data, dirty, row, options = {}){
-    return super.checkComponentValidity(data, dirty, row, {...options, async: true});
+    let updatedOptions = {...options};
+    if (this.component.validate.plugins && this.component.validate.plugins.length) {
+      updatedOptions.async = true;
+    }
+    return super.checkComponentValidity(data, dirty, row, updatedOptions);
   }
 
   setLocationData(postcode, house_number, key) {
@@ -46,14 +50,18 @@ class TextField extends Formio.Components.components.textfield {
     const isValidPostcode = POSTCODE_REGEX.test(data[this.component.derivePostcode]);
 
     if (isValidHouseNumber && isValidPostcode) {
-      if (this.component.deriveStreetName) {
+      // Fill data if it is not set yet or if the field is readonly (i.e. Formio's disabled).
+      // Unrelated to the HTML 'disabled' attribute.
+      const mayAutofillValue = !this.getValue() || this.component.disabled;
+
+      if (this.component.deriveStreetName && mayAutofillValue) {
         this.setLocationData(
           data[this.component.derivePostcode],
           data[this.component.deriveHouseNumber],
           'streetName'
         );
       }
-      if (this.component.deriveCity) {
+      if (this.component.deriveCity && mayAutofillValue) {
         this.setLocationData(
           data[this.component.derivePostcode],
           data[this.component.deriveHouseNumber],
