@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {Literal, LiteralsProvider} from 'components/Literal';
-import {Toolbar, ToolbarList} from 'components/Toolbar';
+import {Toolbar} from 'components/Toolbar';
 import Loader from 'components/Loader';
 import LogoutButton from 'components/LogoutButton';
 import {SUBMISSION_ALLOWED} from 'components/constants';
@@ -21,7 +21,7 @@ const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, 
               onClick={onNavigatePrevPage}
             ><Literal name="previousText"/></Button>
           </ToolbarList>*/}
-          <ToolbarList>
+          <div className="denhaag-button-group denhaag-button-group--multiple">
             {
               showSubmitButton
               && (<button
@@ -57,7 +57,7 @@ const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, 
               name="save"
               onClick={onFormSave}
             ><Literal name="saveText"/></button>
-          </ToolbarList>
+          </div>
         </Toolbar>
       </LiteralsProvider>
       {isAuthenticated ? <LogoutButton onLogout={onLogout}/> : null}
