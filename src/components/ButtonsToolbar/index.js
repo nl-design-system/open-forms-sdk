@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {Literal, LiteralsProvider} from 'components/Literal';
-import {Toolbar, ToolbarList} from 'components/Toolbar';
+import {Toolbar} from 'components/Toolbar';
 import Loader from 'components/Loader';
 import LogoutButton from 'components/LogoutButton';
 import {SUBMISSION_ALLOWED} from 'components/constants';
