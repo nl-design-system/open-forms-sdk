@@ -21,7 +21,7 @@ const ButtonsToolbar = ({literals, canSubmitStep, canSubmitForm, loginRequired, 
               onClick={onNavigatePrevPage}
             ><Literal name="previousText"/></Button>
           </ToolbarList>*/}
-          <div class="denhaag-button-group denhaag-button-group--multiple">
+          <div className="denhaag-button-group denhaag-button-group--multiple">
             {
               showSubmitButton
               && (<button
